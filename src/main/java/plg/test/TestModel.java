@@ -1,18 +1,15 @@
 package plg.test;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
+import org.deckfour.xes.model.XLog;
+import org.deckfour.xes.out.XesXmlSerializer;
 import plg.exceptions.IllegalSequenceException;
-import plg.exceptions.InvalidDataObject;
 import plg.exceptions.InvalidProcessException;
+import plg.generator.ProgressAdapter;
+import plg.generator.log.LogGenerator;
+import plg.generator.log.SimulationConfiguration;
 import plg.generator.process.ProcessGenerator;
 import plg.generator.process.RandomizationConfiguration;
 import plg.io.exporter.GraphvizBPMNExporter;
-import plg.io.importer.PLGImporter;
 import plg.model.Process;
 import plg.model.activity.Task;
 import plg.model.data.DataObject;
@@ -21,15 +18,12 @@ import plg.model.event.EndEvent;
 import plg.model.event.StartEvent;
 import plg.model.gateway.Gateway;
 
+import java.io.FileOutputStream;
+
 public class TestModel {
 
 	public static void main(String[] args) throws
-			IllegalSequenceException,
-			InvalidProcessException,
-			InvalidDataObject,
-			FileNotFoundException,
-			IOException,
-			InterruptedException, ParserConfigurationException, TransformerException {
+			Exception {
 		
 //		for (int i = 0; i < 200; i++) {
 //			Process p = new Process("test");
@@ -50,10 +44,7 @@ public class TestModel {
 //		Process p = i.importModel("C:\\Users\\Andrea\\Desktop\\test.plg");
 //		Process p = i.importModel("C:\\Users\\Andrea\\Desktop\\Hybrid-no-time.bpmn");
 		
-//		LogGenerator g = new LogGenerator(p, new SimulationConfiguration(1000));
-//		XLog l = g.generateLog();
-//		XesXmlGZIPSerializer s = new XesXmlGZIPSerializer();
-//		s.serialize(l, new FileOutputStream("C:\\Users\\Andrea\\Desktop\\testlog.xes.gz"));
+
 		
 		GraphvizBPMNExporter e = new GraphvizBPMNExporter();
 		e.exportModel(p, "C:\\Users\\andbur\\Desktop\\model.dot");
@@ -62,8 +53,11 @@ public class TestModel {
 		
 //		Process p = new Process("test");
 		ProcessGenerator.randomizeProcess(p, RandomizationConfiguration.BASIC_VALUES);
-		
-		
+
+		LogGenerator g = new LogGenerator(p, new SimulationConfiguration(1000), new ProgressAdapter());
+		XLog l = g.generateLog();
+		XesXmlSerializer s = new XesXmlSerializer();
+		s.serialize(l, new FileOutputStream("C:\\Users\\andbur\\Desktop\\testlog.xes"));
 	}
 
 	@SuppressWarnings("unused")

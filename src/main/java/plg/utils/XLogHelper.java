@@ -1,11 +1,5 @@
 package plg.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
 import org.deckfour.xes.extension.XExtensionManager;
 import org.deckfour.xes.extension.std.XConceptExtension;
 import org.deckfour.xes.extension.std.XLifecycleExtension;
@@ -13,20 +7,9 @@ import org.deckfour.xes.extension.std.XOrganizationalExtension;
 import org.deckfour.xes.extension.std.XTimeExtension;
 import org.deckfour.xes.factory.XFactory;
 import org.deckfour.xes.factory.XFactoryNaiveImpl;
-import org.deckfour.xes.model.XAttributable;
-import org.deckfour.xes.model.XAttributeBoolean;
-import org.deckfour.xes.model.XAttributeContinuous;
-import org.deckfour.xes.model.XAttributeDiscrete;
-import org.deckfour.xes.model.XAttributeLiteral;
-import org.deckfour.xes.model.XAttributeMap;
-import org.deckfour.xes.model.XAttributeTimestamp;
-import org.deckfour.xes.model.XEvent;
-import org.deckfour.xes.model.XLog;
-import org.deckfour.xes.model.XTrace;
-import org.deckfour.xes.model.buffered.XAttributeMapBufferedImpl;
-import org.deckfour.xes.model.buffered.XAttributeMapSerializerImpl;
-import org.deckfour.xes.model.buffered.XTraceBufferedImpl;
-import org.deckfour.xes.model.impl.XAttributeMapLazyImpl;
+import org.deckfour.xes.model.*;
+
+import java.util.*;
 
 /**
  * This class is a helper that can be used to handle XLog objects. It is only
@@ -464,9 +447,7 @@ public class XLogHelper {
 	public static List<XTrace> traceToEventsForStream(XTrace trace) {
 		List<XTrace> traceToStream = new ArrayList<XTrace>();
 		for (XEvent e : trace) {
-			XTrace eventWrapper = new XTraceBufferedImpl(
-					new XAttributeMapLazyImpl<XAttributeMapBufferedImpl>(XAttributeMapBufferedImpl.class),
-					new XAttributeMapSerializerImpl());
+			XTrace eventWrapper = new XFactoryNaiveImpl().createTrace();
 			XAttributeMap am = trace.getAttributes();
 			for (String key : am.keySet()) {
 				eventWrapper.getAttributes().put(key, am.get(key));
