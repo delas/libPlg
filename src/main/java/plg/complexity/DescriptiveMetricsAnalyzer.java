@@ -20,6 +20,6 @@ public class DescriptiveMetricsAnalyzer implements Analyzer {
         return Set.of(
                 new Measure("NOA", (double) process.getTasks().size()),
                 new Measure("NOAC", (double) (process.getTasks().size() + process.getGateways().size() + 2)),
-                new Measure("NOAJS", (double) (process.getTasks().size() + process.getGateways().size())))
+                new Measure("NOAJS", (double) (process.getTasks().size() + process.getGateways().size())));
     }
 }
