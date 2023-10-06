@@ -16,10 +16,9 @@ import java.util.Set;
  */
 public class DescriptiveMetricsAnalyzer implements Analyzer {
     @Override
-    public Set<Measure> analyze(Process process) {
-        return Set.of(
-                new Measure("NOA", (double) process.getTasks().size()),
-                new Measure("NOAC", (double) (process.getTasks().size() + process.getGateways().size() + 2)),
-                new Measure("NOAJS", (double) (process.getTasks().size() + process.getGateways().size())));
+    public Measures analyze(Process process) {
+        return new Measures("NOA", (double) process.getTasks().size())
+                .add("NOAC", (double) (process.getTasks().size() + process.getGateways().size() + 2))
+                .add("NOAJS", (double) (process.getTasks().size() + process.getGateways().size()));
     }
 }

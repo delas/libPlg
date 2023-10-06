@@ -5,5 +5,5 @@ import plg.model.Process;
 import java.util.Set;
 
 public interface Analyzer {
-    public Set<Measure> analyze(Process process);
+    public Measures analyze(Process process);
 }

@@ -17,8 +17,7 @@ import java.util.Set;
  */
 public class CFCMetric implements Analyzer {
     @Override
-    public Set<Measure> analyze(Process process) {
-
+    public Measures analyze(Process process) {
         double tot_gateways = 0;
         double cfc_abs = 0;
         for (Gateway g : process.getGateways()) {
@@ -33,6 +32,6 @@ public class CFCMetric implements Analyzer {
             }
         }
 
-        return Set.of(new Measure("CFC", cfc_abs / tot_gateways));
+        return new Measures("CFC", cfc_abs / tot_gateways);
     }
 }
